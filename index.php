@@ -1,3 +1,9 @@
+<?php
+require 'connection.php';
+if(empty($_SESSION["user"])){
+    header("Location: login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -349,7 +355,7 @@
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="#">
+                                                <a href="login.php?logout=ok">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>

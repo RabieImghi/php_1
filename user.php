@@ -1,3 +1,33 @@
+<?php
+require 'connection.php';
+if(empty($_SESSION["user"])){
+    header("Location: login.php");
+}
+if(isset($_POST['adduser'])){
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = MD5($_POST['password']);
+    $role = $_POST['role'];
+    $sql = "INSERT INTO utilisateurs SET userName = '$username',
+             email ='$email', password ='$password', role='$role'";
+    $conn->query($sql);
+}
+if(isset($_GET["deletUser"])){
+    $id=$_GET["deletUser"];
+    $sql = "DELETE FROM utilisateurs WHERE UserID=$id";
+    $conn->query($sql);
+}
+if(isset($_POST['updateUser'])){
+    $UserID = $_POST['idUser'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $role = $_POST['role'];
+    $sql = "UPDATE utilisateurs SET  userName = '$username',
+         email ='$email', role='$role' WHERE UserID=$UserID";
+    $conn->query($sql);
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -349,7 +379,7 @@
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="login.php">
+                                                <a href="login.php?logout=ok">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>
@@ -372,176 +402,68 @@
                                 <div class="user-data m-b-30">
                                     <h3 class="title-3 m-b-30">
                                         <i class="zmdi zmdi-account-calendar"></i>user data</h3>
-                                    <div class="filters m-b-45">
+                                    <div class="filters m-b-45 d-flex justify-content-between">
                                         <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border">
                                             <select class="js-select2" name="property">
                                                 <option selected="selected">All Properties</option>
-                                                <option value="">Admin</option>
                                                 <option value="">User</option>
+                                                <option value="">Admin</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
+                                        </div>
+                                        <div class="table-data__tool-right">
+                                            <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#addUser">
+                                                <i class="zmdi zmdi-plus" ></i>add Usrr
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="table-responsive table-data">
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <td>
-                                                        <label class="au-checkbox">
-                                                            <input type="checkbox">
-                                                            <span class="au-checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>name</td>
-                                                    <td>role</td>
-                                                    <td>type</td>
-                                                    <td></td>
+                                                    <td>User Name</td>
+                                                    <td>Email</td>
+                                                    <td>Role</td>
+                                                    <td>Action</td>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <label class="au-checkbox">
-                                                            <input type="checkbox">
-                                                            <span class="au-checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="table-data__info">
-                                                            <h6>lori lynch</h6>
-                                                            <span>
-                                                                <a href="#">johndoe@gmail.com</a>
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="role admin">admin</span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="rs-select2--trans rs-select2--sm">
-                                                            <select class="js-select2" name="property">
-                                                                <option selected="selected">Full Control</option>
-                                                                <option value="">Post</option>
-                                                                <option value="">Watch</option>
-                                                            </select>
-                                                            <div class="dropDownSelect2"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="more">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label class="au-checkbox">
-                                                            <input type="checkbox" checked="checked">
-                                                            <span class="au-checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="table-data__info">
-                                                            <h6>lori lynch</h6>
-                                                            <span>
-                                                                <a href="#">johndoe@gmail.com</a>
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="role user">user</span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="rs-select2--trans rs-select2--sm">
-                                                            <select class="js-select2" name="property">
-                                                                <option value="">Full Control</option>
-                                                                <option value="" selected="selected">Post</option>
-                                                                <option value="">Watch</option>
-                                                            </select>
-                                                            <div class="dropDownSelect2"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="more">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label class="au-checkbox">
-                                                            <input type="checkbox">
-                                                            <span class="au-checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="table-data__info">
-                                                            <h6>lori lynch</h6>
-                                                            <span>
-                                                                <a href="#">johndoe@gmail.com</a>
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="role user">user</span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="rs-select2--trans rs-select2--sm">
-                                                            <select class="js-select2" name="property">
-                                                                <option value="">Full Control</option>
-                                                                <option value="" selected="selected">Post</option>
-                                                                <option value="">Watch</option>
-                                                            </select>
-                                                            <div class="dropDownSelect2"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="more">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label class="au-checkbox">
-                                                            <input type="checkbox">
-                                                            <span class="au-checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="table-data__info">
-                                                            <h6>lori lynch</h6>
-                                                            <span>
-                                                                <a href="#">johndoe@gmail.com</a>
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="role member">member</span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="rs-select2--trans rs-select2--sm">
-                                                            <select class="js-select2" name="property">
-                                                                <option selected="selected">Full Control</option>
-                                                                <option value="">Post</option>
-                                                                <option value="">Watch</option>
-                                                            </select>
-                                                            <div class="dropDownSelect2"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="more">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </span>
-                                                    </td>
-                                                </tr>
+                                                <?php
+                                                    $sql = "SELECT * FROM utilisateurs";
+                                                    $result = $conn->query($sql);
+                                                    $i=0;
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        $id=$row["UserID"];
+                                                        ?>
+                                                    <tr>
+                                                        <td> <?=$row['userName']; ?> </td>
+                                                        <td>  <?=$row['email']; ?> </td>
+                                                        <td>
+                                                            <?php 
+                                                                if($row['role']==1) 
+                                                                echo "<span class='role admin'>Admin</span>";
+                                                                else
+                                                                echo "<span class='role user'>User</span>";
+                                                            ?>
+                                                        </td>
+                                                        <td>
+                                                            <i data-toggle="modal" data-target="#largeModal<?=$i?>"  class="zmdi zmdi-edit"></i>    
+                                                            <a href="user.php?deletUser=<?=$id?>"><i class="zmdi zmdi-delete"></i> </a>                                                       
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                    $i++;
+                                                    }
+                                                ?>
                                             </tbody>
+                                            
                                         </table>
                                     </div>
                                     <div class="user-data__footer">
                                         <button class="au-btn au-btn-load">load more</button>
                                     </div>
                                 </div>
+                                
                                 <!-- END USER DATA-->
                             </div>
                         </div>
@@ -556,9 +478,123 @@
                 </div>
             </div>
         </div>
-
     </div>
+    <?php
+    $sql = "SELECT * FROM utilisateurs";
+    $result = $conn->query($sql);
+    $i=0;
+    while ($row = $result->fetch_assoc()) {
+        $id=$row["UserID"];
+        ?>
+    <div class="modal fade" id="largeModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="largeModalLabel">Update User Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="" method="post" novalidate="novalidate">
+                                <div class="form-group">
+                                    <label for="cc-payment" class="control-label mb-1">User Name</label>
+                                    <input id="cc-pament" name="username" type="text" class="form-control" aria-required="true" aria-invalid="false" value="<?=$row['userName']; ?>">
+                                </div>
+                                <div class="form-group has-success">
+                                    <label for="cc-name" class="control-label mb-1">Email</label>
+                                    <input id="cc-name" name="email" type="text" class="form-control cc-name valid" value="<?=$row['email'];?>" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="select" class=" form-control-label">Role</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <select name="role" id="select" class="form-control">
+                                                <option>Please select</option>
+                                                
+                                                <option value="0" <?php if($row['role']==0) echo "selected"?>>User</option>
+                                                <option value="1" <?php if($row['role']==1) echo "selected"?>>Admin</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input type="hidden" value="<?=$id?>" name='idUser'>
+                                    <button id="payment-button" name='updateUser' type="submit" class="btn btn-lg btn-info btn-block">
+                                        UPDATE
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php $i++; } ?>
 
+    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="largeModalLabel">Update User Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" novalidate="novalidate">
+                                <div class="form-group">
+                                    <label for="cc-payment" class="control-label mb-1">User Name</label>
+                                    <input id="cc-pament" name="username" type="text" class="form-control" aria-required="true" aria-invalid="false" >
+                                </div>
+                                <div class="form-group has-success">
+                                    <label for="cc-name" class="control-label mb-1">Email</label>
+                                    <input id="cc-name" name="email" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label for="cc-name" class="control-label mb-1">Password</label>
+                                    <input id="cc-name" name="password" type="password" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="select" class=" form-control-label">Role</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <select name="role" id="select" class="form-control">
+                                                <option>Please select</option>
+                                                <option value="0">User</option>
+                                                <option value="1">Admin</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button id="payment-button"  type="submit" name="adduser" class="btn btn-lg btn-info btn-block">
+                                        UPDATE
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
@@ -582,7 +618,7 @@
 
     <!-- Main JS-->
     <script src="js/main.js"></script>
-
+    
 </body>
 
 </html>

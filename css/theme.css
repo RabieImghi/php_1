@@ -46,6 +46,7 @@ Notes:	decreasing heading by 0.4em with every subsequent heading level
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    transition: none !important;
 }
 
 ul {

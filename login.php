@@ -1,5 +1,8 @@
 <?php
     require 'connection.php';
+    if(isset($_GET["logout"])){
+        session_destroy();
+    }
     if(isset($_POST["login"])){
         $email = $_POST["email"];
         $password = MD5($_POST["password"]);
@@ -7,17 +10,14 @@
         $sql = "SELECT * FROM utilisateurs WHERE email='$email' AND password ='$password'";
         $res=$conn->query($sql);
         if(!$res) {
-            // Check for SQL errors
             echo "Error: " . $conn->error;  // Add this line for debugging purposes
+            header("Location: login.php");
         } else {
             // Check if any rows were returned
             if($res->num_rows > 0){
-                // Login successful, redirect user to index page
+                $_SESSION["user"] =  "ok";
                 header("Location: index.php");
                 exit();
-            } else {
-                // Login failed
-                echo "Invalid email or password";
             }
         }
     }
