@@ -4,11 +4,22 @@
         $email = $_POST["email"];
         $password = MD5($_POST["password"]);
 
-        $sql = "SELECT * FROM utilisateurs WHERE email='$email' AND passowrd ='$password'";
+        $sql = "SELECT * FROM utilisateurs WHERE email='$email' AND password ='$password'";
         $res=$conn->query($sql);
-        
-            header("Location: index.php");
-        
+        if(!$res) {
+            // Check for SQL errors
+            echo "Error: " . $conn->error;  // Add this line for debugging purposes
+        } else {
+            // Check if any rows were returned
+            if($res->num_rows > 0){
+                // Login successful, redirect user to index page
+                header("Location: index.php");
+                exit();
+            } else {
+                // Login failed
+                echo "Invalid email or password";
+            }
+        }
     }
 ?>
 <!DOCTYPE html>
