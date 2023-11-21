@@ -1,3 +1,17 @@
+<?php
+require 'connection.php';
+if(empty($_SESSION["user"])){
+    header("Location: login.php");
+}
+if(isset($_POST['addResource'])){
+    $resname = $_POST['resname'];
+    $cateory = $_POST['cateory'];
+    $SubcategoryID = $_POST['subcateory'];
+    $sql = "INSERT INTO ressources SET ResourceName = '$resname',
+             CategoryID  =$cateory, SubcategoryID  =$SubcategoryID";
+    $conn->query($sql);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -392,7 +406,7 @@
                                             <i class="zmdi zmdi-filter-list"></i>filters</button>
                                     </div>
                                     <div class="table-data__tool-right">
-                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#addUser" >
                                             <i class="zmdi zmdi-plus"></i>add item</button>
                                     </div>
                                 </div>
@@ -400,161 +414,32 @@
                                     <table class="table table-data2">
                                         <thead>
                                             <tr>
-                                                <th>
-                                                    <label class="au-checkbox">
-                                                        <input type="checkbox">
-                                                        <span class="au-checkmark"></span>
-                                                    </label>
-                                                </th>
-                                                <th>name</th>
-                                                <th>email</th>
-                                                <th>description</th>
-                                                <th>date</th>
-                                                <th>status</th>
-                                                <th>price</th>
+                                                
+                                                <th>Resource Name</th>
+                                                <th>Resource Category</th>
+                                                <th>Resorce Subcategory</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    <label class="au-checkbox">
-                                                        <input type="checkbox">
-                                                        <span class="au-checkmark"></span>
-                                                    </label>
-                                                </td>
-                                                <td>Lori Lynch</td>
+                                            <tr class="tr-shadow"> 
                                                 <td>
                                                     <span class="block-email">lori@example.com</span>
                                                 </td>
-                                                <td class="desc">Samsung S8 Black</td>
+                                                <td>Lori Lynch</td>
                                                 <td>2018-09-27 02:12</td>
                                                 <td>
-                                                    <span class="status--process">Processed</span>
-                                                </td>
-                                                <td>$679.00</td>
-                                                <td>
                                                     <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                                                            <i class="zmdi zmdi-mail-send"></i>
-                                                        </button>
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                                             <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
                                                         </button>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr class="spacer"></tr>
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    <label class="au-checkbox">
-                                                        <input type="checkbox">
-                                                        <span class="au-checkmark"></span>
-                                                    </label>
-                                                </td>
-                                                <td>Lori Lynch</td>
-                                                <td>
-                                                    <span class="block-email">john@example.com</span>
-                                                </td>
-                                                <td class="desc">iPhone X 64Gb Grey</td>
-                                                <td>2018-09-29 05:57</td>
-                                                <td>
-                                                    <span class="status--process">Processed</span>
-                                                </td>
-                                                <td>$999.00</td>
-                                                <td>
-                                                    <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                                                            <i class="zmdi zmdi-mail-send"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="spacer"></tr>
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    <label class="au-checkbox">
-                                                        <input type="checkbox">
-                                                        <span class="au-checkmark"></span>
-                                                    </label>
-                                                </td>
-                                                <td>Lori Lynch</td>
-                                                <td>
-                                                    <span class="block-email">lyn@example.com</span>
-                                                </td>
-                                                <td class="desc">iPhone X 256Gb Black</td>
-                                                <td>2018-09-25 19:03</td>
-                                                <td>
-                                                    <span class="status--denied">Denied</span>
-                                                </td>
-                                                <td>$1199.00</td>
-                                                <td>
-                                                    <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                                                            <i class="zmdi zmdi-mail-send"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="spacer"></tr>
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    <label class="au-checkbox">
-                                                        <input type="checkbox">
-                                                        <span class="au-checkmark"></span>
-                                                    </label>
-                                                </td>
-                                                <td>Lori Lynch</td>
-                                                <td>
-                                                    <span class="block-email">doe@example.com</span>
-                                                </td>
-                                                <td class="desc">Camera C430W 4k</td>
-                                                <td>2018-09-24 19:10</td>
-                                                <td>
-                                                    <span class="status--process">Processed</span>
-                                                </td>
-                                                <td>$699.00</td>
-                                                <td>
-                                                    <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                                                            <i class="zmdi zmdi-mail-send"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -572,9 +457,86 @@
                 </div>
             </div>
         </div>
-
     </div>
 
+    <!-- add res modal-->
+    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="largeModalLabel">Add Recource</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" novalidate="novalidate">
+                                <div class="form-group">
+                                    <label for="cc-payment" class="control-label mb-1">Recource Name</label>
+                                    <input id="cc-pament" name="resname" type="text" class="form-control" aria-required="true" aria-invalid="false" >
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="select" class=" form-control-label">Recource Category</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <select name="cateory" id="select" class="form-control">
+                                                <option>Please select Category</option>
+                                                    
+                                                <?php 
+                                                    $sql = "SELECT * FROM  categorys ";
+                                                    $result = $conn->query($sql);
+                                                    $i=0;
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        $id=$row["CategoryID"];
+                                                    ?>
+                                                    <option value="<?=$id?>"><?=$row["CategoryDescription"]?></option>
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="select" class=" form-control-label">Recource subategory</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <select name="subcateory" id="select" class="form-control">
+                                                <option>Please select subCategory</option>
+                                                    
+                                                <?php 
+                                                    $sql = "SELECT * FROM  subcategorys ";
+                                                    $result = $conn->query($sql);
+                                                    $i=0;
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        $id=$row["SubcategoryID"];
+                                                    ?>
+                                                    <option value="<?=$id?>"><?=$row["SubcategoryDescription"]?></option>
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button id="payment-button"  type="submit" name="addResource" class="btn btn-lg btn-info btn-block">
+                                        add
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
