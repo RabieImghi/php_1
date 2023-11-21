@@ -11,6 +11,15 @@ if(isset($_POST['addResource'])){
              CategoryID  =$cateory, SubcategoryID  =$SubcategoryID";
     $conn->query($sql);
 }
+if(isset($_POST["updateResourcr"])){
+    $resname = $_POST['resname'];
+    $cateory = $_POST['cateory'];
+    $SubcategoryID = $_POST['subcateory'];
+    $idres= $_POST["idRes"];
+    $sql = "UPDATE ressources SET ResourceName = '$resname',
+    CategoryID  =$cateory, SubcategoryID  =$SubcategoryID WHERE ResourceID =$idres ";
+    $conn->query($sql);
+}
 if(isset($_POST["deletResource"])){
     $id = $_POST['idRes'];
     $sql = "DELETE FROM ressources WHERE ResourceID=$id";
@@ -480,6 +489,7 @@ if(isset($_POST["deletResource"])){
     $result = $conn->query($sql);
     $i=0;
     while ($row = $result->fetch_assoc()) {
+        $idress=$row["ResourceID"];
         ?>
     <div class="modal fade" id="largeModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -495,8 +505,8 @@ if(isset($_POST["deletResource"])){
                         <div class="card-body">
                             <form method="post" novalidate="novalidate">
                                 <div class="form-group">
-                                    <label for="cc-payment" class="control-label mb-1"><?=$row["ResourceName"]?></label>
-                                    <input id="cc-pament" name="resname" type="text" class="form-control" aria-required="true" aria-invalid="false" >
+                                    <label for="cc-payment" class="control-label mb-1">Resource Name</label>
+                                    <input id="cc-pament" name="resname" type="text" class="form-control" aria-required="true" value='<?=$row["ResourceName"]?>' aria-invalid="false" >
                                 </div>
 
                                 <div class="form-group">
@@ -509,10 +519,10 @@ if(isset($_POST["deletResource"])){
                                                 <option>Please select Category</option>
                                                     
                                                 <?php 
-                                                    $sql = "SELECT * FROM  categorys ";
-                                                    $result = $conn->query($sql);
+                                                    $sql2 = "SELECT * FROM  categorys ";
+                                                    $result2 = $conn->query($sql2);
                                                     $i=0;
-                                                    while ($row2 = $result->fetch_assoc()) {
+                                                    while ($row2 = $result2->fetch_assoc()) {
                                                         $id=$row2["CategoryID"];
                                                     ?>
                                                     <option value="<?=$id?>" <?php if($row["CategoryID"]==$id) echo "selected"; ?>><?=$row2["CategoryDescription"]?></option>
@@ -544,7 +554,8 @@ if(isset($_POST["deletResource"])){
                                     </div>
                                 </div>
                                 <div>
-                                    <button id="payment-button"  type="submit" name="addResource" class="btn btn-lg btn-info btn-block">
+                                    <input type="hidden" name="idRes" value='<?=$idress?>' >
+                                    <button id="payment-button"  type="submit" name="updateResourcr" class="btn btn-lg btn-info btn-block">
                                         add
                                     </button>
                                 </div>
