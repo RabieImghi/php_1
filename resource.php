@@ -422,15 +422,22 @@ if(isset($_POST['addResource'])){
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php
+                                                $sql = "SELECT * FROM categorys NATURAL JOIN ressources NATURAL JOIN subcategorys";
+                                                $result = $conn->query($sql);
+                                                $i=0;
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $id=$row["ResourceID"];
+                                            ?>
                                             <tr class="tr-shadow"> 
                                                 <td>
-                                                    <span class="block-email">lori@example.com</span>
+                                                    <span class="block-email"><?=$row["ResourceName"]?></span>
                                                 </td>
-                                                <td>Lori Lynch</td>
-                                                <td>2018-09-27 02:12</td>
+                                                <td><?=$row["CategoryDescription"]?></td>
+                                                <td><?=$row["SubcategoryDescription"]?></td>
                                                 <td>
                                                     <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                        <button data-toggle="modal" data-target="#largeModal<?=$i?>" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
@@ -440,6 +447,7 @@ if(isset($_POST['addResource'])){
                                                 </td>
                                             </tr>
                                             <tr class="spacer"></tr>
+                                            <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -458,7 +466,90 @@ if(isset($_POST['addResource'])){
             </div>
         </div>
     </div>
+    <?php
+    $sql = "SELECT * FROM categorys NATURAL JOIN ressources NATURAL JOIN subcategorys";
+    $result = $conn->query($sql);
+    $i=0;
+    while ($row = $result->fetch_assoc()) {
+        ?>
+    <div class="modal fade" id="largeModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="largeModalLabel">Add Recource</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" novalidate="novalidate">
+                                <div class="form-group">
+                                    <label for="cc-payment" class="control-label mb-1"><?=$row["ResourceName"]?></label>
+                                    <input id="cc-pament" name="resname" type="text" class="form-control" aria-required="true" aria-invalid="false" >
+                                </div>
 
+                                <div class="form-group">
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="select" class=" form-control-label">Recource Category</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <select name="cateory" id="select" class="form-control">
+                                                <option>Please select Category</option>
+                                                    
+                                                <?php 
+                                                    $sql = "SELECT * FROM  categorys ";
+                                                    $result = $conn->query($sql);
+                                                    $i=0;
+                                                    while ($row2 = $result->fetch_assoc()) {
+                                                        $id=$row2["CategoryID"];
+                                                    ?>
+                                                    <option value="<?=$id?>" <?php if($row["CategoryID"]==$id) echo "selected"; ?>><?=$row2["CategoryDescription"]?></option>
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="select" class=" form-control-label">Recource subategory</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <select name="subcateory" id="select" class="form-control">
+                                                <option>Please select subCategory</option>
+                                                    
+                                                <?php 
+                                                    $sql = "SELECT * FROM  subcategorys ";
+                                                    $result = $conn->query($sql);
+                                                    $i=0;
+                                                    while ($row2 = $result->fetch_assoc()) {
+                                                        $id=$row2["SubcategoryID"];
+                                                    ?>
+                                                    <option value="<?=$id?>" <?php if($row["SubcategoryID"]==$id) echo "selected";?> > <?=$row2["SubcategoryDescription"]?></option>
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button id="payment-button"  type="submit" name="addResource" class="btn btn-lg btn-info btn-block">
+                                        add
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php $i++; } ?>
     <!-- add res modal-->
     <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
