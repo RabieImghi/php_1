@@ -15,7 +15,9 @@
         } else {
             // Check if any rows were returned
             if($res->num_rows > 0){
-                $_SESSION["user"] =  "ok";
+                $user = $res->fetch_assoc();
+                $_SESSION["user"] =  $user["userName"];
+                $_SESSION["roleUser"] =  $user["role"];
                 header("Location: index.php");
                 exit();
             }

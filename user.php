@@ -198,6 +198,9 @@ if(isset($_POST['updateUser'])){
                             <a href="index.php">
                                 <i class="fas fa-tachometer-alt"></i></i>Dashboard</a>
                         </li>
+                        <?php 
+                            if($_SESSION["roleUser"]==1){
+                        ?>
                         <li>
                             <a href="user.php">
                                 <i class="fas fa-table"></i>Users</a>
@@ -206,6 +209,7 @@ if(isset($_POST['updateUser'])){
                             <a href="resource.php">
                                 <i class="far fa-check-square"></i>Resource</a>
                         </li>
+                        <?php } ?>
                         <li>
                             <a href="category.php">
                                 <i class="fas fa-calendar-alt"></i>Category</a>

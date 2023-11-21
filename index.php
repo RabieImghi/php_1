@@ -174,6 +174,9 @@ if(empty($_SESSION["user"])){
                             <a href="index.php">
                                 <i class="fas fa-tachometer-alt"></i></i>Dashboard</a>
                         </li>
+                        <?php 
+                            if($_SESSION["roleUser"]==1){
+                        ?>
                         <li>
                             <a href="user.php">
                                 <i class="fas fa-table"></i>Users</a>
@@ -182,6 +185,7 @@ if(empty($_SESSION["user"])){
                             <a href="resource.php">
                                 <i class="far fa-check-square"></i>Resource</a>
                         </li>
+                            <?php } ?>
                         <li>
                             <a href="category.php">
                                 <i class="fas fa-calendar-alt"></i>Category</a>
@@ -392,12 +396,14 @@ if(empty($_SESSION["user"])){
                                                 <i class="zmdi zmdi-account-o"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>10368</h2>
-                                                <span>members online</span>
+                                                <?php
+                                                    $users = "SELECT count(*) as Total FROM utilisateurs";
+                                                    $result = $conn->query($users);
+                                                    $user = $result->fetch_assoc();
+                                                ?>
+                                                <h2><?=$user["Total"]?></h2>
+                                                <span>Members Total</span>
                                             </div>
-                                        </div>
-                                        <div class="overview-chart">
-                                            <canvas id="widgetChart1"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -410,12 +416,14 @@ if(empty($_SESSION["user"])){
                                                 <i class="zmdi zmdi-shopping-cart"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>388,688</h2>
-                                                <span>items solid</span>
+                                                <?php
+                                                    $users = "SELECT count(*) as Total FROM categorys";
+                                                    $result = $conn->query($users);
+                                                    $user = $result->fetch_assoc();
+                                                ?>
+                                                <h2><?=$user["Total"]?></h2>
+                                                <span>Total Category</span>
                                             </div>
-                                        </div>
-                                        <div class="overview-chart">
-                                            <canvas id="widgetChart2"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -428,12 +436,14 @@ if(empty($_SESSION["user"])){
                                                 <i class="zmdi zmdi-calendar-note"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>1,086</h2>
-                                                <span>this week</span>
+                                                <?php
+                                                    $users = "SELECT count(*) as Total FROM subcategorys";
+                                                    $result = $conn->query($users);
+                                                    $user = $result->fetch_assoc();
+                                                ?>
+                                                <h2><?=$user["Total"]?></h2>
+                                                <span>Total SubCategorys</span>
                                             </div>
-                                        </div>
-                                        <div class="overview-chart">
-                                            <canvas id="widgetChart3"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -446,12 +456,14 @@ if(empty($_SESSION["user"])){
                                                 <i class="zmdi zmdi-money"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>$1,060,386</h2>
-                                                <span>total earnings</span>
+                                                <?php
+                                                    $users = "SELECT count(*) as Total FROM ressources";
+                                                    $result = $conn->query($users);
+                                                    $user = $result->fetch_assoc();
+                                                ?>
+                                                <h2><?=$user["Total"]?></h2>
+                                                <span>Total Ressources</span>
                                             </div>
-                                        </div>
-                                        <div class="overview-chart">
-                                            <canvas id="widgetChart4"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -460,127 +472,59 @@ if(empty($_SESSION["user"])){
                         
                         <div class="row">
                             <div class="col-lg-9">
-                                <h2 class="title-1 m-b-25">Earnings By Items</h2>
+                                <h2 class="title-1 m-b-25">Most Category Used</h2>
                                 <div class="table-responsive table--no-card m-b-40">
                                     <table class="table table-borderless table-striped table-earning">
                                         <thead>
-                                            <tr>
-                                                <th>date</th>
-                                                <th>order ID</th>
-                                                <th>name</th>
-                                                <th class="text-right">price</th>
-                                                <th class="text-right">quantity</th>
-                                                <th class="text-right">total</th>
+                                            <tr> 
+                                                <th>Category ID</th>
+                                                <th>Category Name</th>
+                                                <th class="text-right">Number Of Used Resource</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>2018-09-29 05:57</td>
-                                                <td>100398</td>
-                                                <td>iPhone X 64Gb Grey</td>
-                                                <td class="text-right">$999.00</td>
-                                                <td class="text-right">1</td>
-                                                <td class="text-right">$999.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-28 01:22</td>
-                                                <td>100397</td>
-                                                <td>Samsung S8 Black</td>
-                                                <td class="text-right">$756.00</td>
-                                                <td class="text-right">1</td>
-                                                <td class="text-right">$756.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-27 02:12</td>
-                                                <td>100396</td>
-                                                <td>Game Console Controller</td>
-                                                <td class="text-right">$22.00</td>
-                                                <td class="text-right">2</td>
-                                                <td class="text-right">$44.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-26 23:06</td>
-                                                <td>100395</td>
-                                                <td>iPhone X 256Gb Black</td>
-                                                <td class="text-right">$1199.00</td>
-                                                <td class="text-right">1</td>
-                                                <td class="text-right">$1199.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-25 19:03</td>
-                                                <td>100393</td>
-                                                <td>USB 3.0 Cable</td>
-                                                <td class="text-right">$10.00</td>
-                                                <td class="text-right">3</td>
-                                                <td class="text-right">$30.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-29 05:57</td>
-                                                <td>100392</td>
-                                                <td>Smartwatch 4.0 LTE Wifi</td>
-                                                <td class="text-right">$199.00</td>
-                                                <td class="text-right">6</td>
-                                                <td class="text-right">$1494.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-24 19:10</td>
-                                                <td>100391</td>
-                                                <td>Camera C430W 4k</td>
-                                                <td class="text-right">$699.00</td>
-                                                <td class="text-right">1</td>
-                                                <td class="text-right">$699.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-22 00:43</td>
-                                                <td>100393</td>
-                                                <td>USB 3.0 Cable</td>
-                                                <td class="text-right">$10.00</td>
-                                                <td class="text-right">3</td>
-                                                <td class="text-right">$30.00</td>
-                                            </tr>
+                                            <?php
+                                                $resources = "SELECT *,count(ResourceID) as totalRes FROM
+                                                 categorys NATURAL JOIN ressources 
+                                                 GROUP BY ressources.CategoryID 
+                                                 ORDER BY totalRes DESC";
+                                                $result = $conn->query($resources);
+                                                while ($resource = $result->fetch_assoc()){
+                                                    ?>
+                                                <tr>
+                                                    <td><?=$resource['CategoryID']?></td>
+                                                    <td><?=$resource['CategoryDescription']?></td>
+                                                    <td class="text-right"><?=$resource['totalRes']?></td>
+                                                </tr>
+                                            <?php
+                                                }
+                                            ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             <div class="col-lg-3">
-                                <h2 class="title-1 m-b-25">Top countries</h2>
+                                <h2 class="title-1 m-b-25">Category Not use</h2>
                                 <div class="au-card au-card--bg-blue au-card-top-countries m-b-40">
                                     <div class="au-card-inner">
                                         <div class="table-responsive">
                                             <table class="table table-top-countries">
                                                 <tbody>
+                                                    <?php
+                                                    $categorys = "SELECT *, c.CategoryID as idc FROM categorys c LEFT JOIN ressources r 
+                                                    ON c.CategoryID = r.CategoryID 
+                                                    WHERE r.CategoryID IS NULL";
+                                                    $result = $conn->query($categorys);
+                                                    while ($category = $result->fetch_assoc()){
+                                                    ?>
                                                     <tr>
-                                                        <td>United States</td>
-                                                        <td class="text-right">$119,366.96</td>
+                                                        <td><?=$category["idc"]?></td>
+                                                        <td class="text-right"><?=$category["CategoryDescription"]?></td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>Australia</td>
-                                                        <td class="text-right">$70,261.65</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>United Kingdom</td>
-                                                        <td class="text-right">$46,399.22</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Turkey</td>
-                                                        <td class="text-right">$35,364.90</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Germany</td>
-                                                        <td class="text-right">$20,366.96</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>France</td>
-                                                        <td class="text-right">$10,366.96</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Australia</td>
-                                                        <td class="text-right">$5,366.96</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Italy</td>
-                                                        <td class="text-right">$1639.32</td>
-                                                    </tr>
+                                                    <?php
+                                                    }
+                                                    ?>
+
                                                 </tbody>
                                             </table>
                                         </div>
