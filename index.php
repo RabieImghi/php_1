@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-require 'connection.php';
+include 'connection.php';
 if(empty($_SESSION["user"])){
     header("Location: login.php");
 }
