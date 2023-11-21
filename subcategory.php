@@ -5,14 +5,17 @@ if(empty($_SESSION["user"])){
 }
 if(isset($_POST['addCat'])){
     $catname = $_POST['catname'];
-    $sql = "INSERT INTO subcategorys SET SubcategoryDescription = '$catname'";
+    $category = $_POST['category'];
+    
+    $sql = "INSERT INTO subcategorys SET SubcategoryDescription = '$catname', CategoryID ='$category'";
     $conn->query($sql);
 }
 if(isset($_POST["updateCat"])){
     $catname = $_POST['catname'];
     $idCat= $_POST["idCat"];
-    $sql = "UPDATE subcategorys SET CategoryDescription ='$catname'
-         WHERE CategoryID =$idCat";
+    $category= $_POST["category"];
+    $sql = "UPDATE subcategorys SET SubcategoryDescription ='$catname',CategoryID ='$category'
+         WHERE SubcategoryID =$idCat";
     $conn->query($sql);
 }
 if(isset($_POST["deletCat"])){
@@ -487,6 +490,7 @@ if(isset($_POST["deletCat"])){
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
         $idCat=$row["SubcategoryID"];
+        $idCat2=$row["CategoryID"];
         ?>
     <div class="modal fade" id="largeModal<?=$row["SubcategoryID"]?>" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -504,6 +508,28 @@ if(isset($_POST["deletCat"])){
                                 <div class="form-group">
                                     <label for="cc-payment" class="control-label mb-1">Category Name</label>
                                     <input id="cc-pament" name="catname" type="text" class="form-control" aria-required="true" value='<?=$row["SubcategoryDescription"]?>' aria-invalid="false" >
+                                </div>
+                                <div class="form-group">
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="select" class=" form-control-label">Recource Category</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <select name="category" id="select" class="form-control">
+                                                <option>Please select Category</option>
+                                                    
+                                                <?php 
+                                                    $sql2 = "SELECT * FROM  categorys ";
+                                                    $result2 = $conn->query($sql2);
+                                                    $i=0;
+                                                    while ($row2 = $result2->fetch_assoc()) {
+                                                        $id=$row2["CategoryID"];
+                                                    ?>
+                                                    <option value="<?=$id?>" <?php if($idCat2==$id) echo "selected" ?>><?=$row2["CategoryDescription"]?></option>
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div>
                                     <input type="hidden" name="idCat" value='<?=$idCat?>' >
@@ -540,6 +566,28 @@ if(isset($_POST["deletCat"])){
                                 <div class="form-group">
                                     <label for="cc-payment" class="control-label mb-1">SubCategory Name</label>
                                     <input id="cc-pament" name="catname" type="text" class="form-control" aria-required="true" aria-invalid="false" >
+                                </div>
+                                <div class="form-group">
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="select" class=" form-control-label">Recource Category</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <select name="category" id="select" class="form-control">
+                                                <option>Please select Category</option>
+                                                    
+                                                <?php 
+                                                    $sql2 = "SELECT * FROM  categorys ";
+                                                    $result2 = $conn->query($sql2);
+                                                    $i=0;
+                                                    while ($row2 = $result2->fetch_assoc()) {
+                                                        $id=$row2["CategoryID"];
+                                                    ?>
+                                                    <option value="<?=$id?>"><?=$row2["CategoryDescription"]?></option>
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div>
                                     <button id="payment-button"  type="submit" name="addCat" class="btn btn-lg btn-info btn-block">
