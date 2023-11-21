@@ -1,5 +1,7 @@
+<!DOCTYPE html>
+<html lang="en">
 <?php
-    require 'connection.php';
+    include 'connection.php';
     if(isset($_GET["logout"])){
         session_destroy();
     }
