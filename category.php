@@ -9,12 +9,10 @@ if(isset($_POST['addCat'])){
     $conn->query($sql);
 }
 if(isset($_POST["updateCat"])){
-    $resname = $_POST['resname'];
-    $cateory = $_POST['cateory'];
-    $SubcategoryID = $_POST['subcateory'];
-    $idres= $_POST["idRes"];
-    $sql = "UPDATE ressources SET ResourceName = '$resname',
-    CategoryID  =$cateory, SubcategoryID  =$SubcategoryID WHERE ResourceID =$idres ";
+    $catname = $_POST['catname'];
+    $idCat= $_POST["idCat"];
+    $sql = "UPDATE categorys SET CategoryDescription ='$catname'
+         WHERE CategoryID =$idCat";
     $conn->query($sql);
 }
 if(isset($_POST["deletCat"])){
@@ -440,7 +438,6 @@ if(isset($_POST["deletCat"])){
                                             <?php
                                                 $sql = "SELECT * FROM categorys";
                                                 $result = $conn->query($sql);
-                                                $i=0;
                                                 while ($row = $result->fetch_assoc()) {
                                                     $id=$row["CategoryID"];
                                             ?>
@@ -451,7 +448,7 @@ if(isset($_POST["deletCat"])){
                                                 <td><?=$row["CategoryDescription"]?></td>
                                                 <td>
                                                     <div class="table-data-feature">
-                                                        <button data-toggle="modal" data-target="#largeModal<?=$i?>" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                        <button data-toggle="modal" data-target="#largeModal<?=$row["CategoryID"]?>" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
                                                         <form method="post" >
@@ -486,11 +483,10 @@ if(isset($_POST["deletCat"])){
     <?php
     $sql = "SELECT * FROM categorys";
     $result = $conn->query($sql);
-    $i=0;
     while ($row = $result->fetch_assoc()) {
-        $idress=$row["ResourceID"];
+        $idCat=$row["CategoryID"];
         ?>
-    <div class="modal fade" id="largeModal<?=$i++?>" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+    <div class="modal fade" id="largeModal<?=$row["CategoryID"]?>" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -505,12 +501,12 @@ if(isset($_POST["deletCat"])){
                             <form method="post" novalidate="novalidate">
                                 <div class="form-group">
                                     <label for="cc-payment" class="control-label mb-1">Category Name</label>
-                                    <input id="cc-pament" name="resname" type="text" class="form-control" aria-required="true" value='<?=$row["CategoryDescription"]?>' aria-invalid="false" >
+                                    <input id="cc-pament" name="catname" type="text" class="form-control" aria-required="true" value='<?=$row["CategoryDescription"]?>' aria-invalid="false" >
                                 </div>
                                 <div>
-                                    <input type="hidden" name="idRes" value='<?=$idress?>' >
-                                    <button id="payment-button"  type="submit" name="updateResourcr" class="btn btn-lg btn-info btn-block">
-                                        add
+                                    <input type="hidden" name="idCat" value='<?=$idCat?>' >
+                                    <button id="payment-button"  type="submit" name="updateCat" class="btn btn-lg btn-info btn-block">
+                                        Update Caregory
                                     </button>
                                 </div>
                             </form>
