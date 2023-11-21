@@ -186,6 +186,10 @@ if(empty($_SESSION["user"])){
                             <a href="category.php">
                                 <i class="fas fa-calendar-alt"></i>Category</a>
                         </li>
+                        <li>
+                            <a href="subcategory.php">
+                                <i class="fas fa-calendar-alt"></i>SubCategory</a>
+                        </li>
                     </ul>
                 </nav>
             </div>

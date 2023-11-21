@@ -210,6 +210,10 @@ if(isset($_POST['updateUser'])){
                             <a href="category.php">
                                 <i class="fas fa-calendar-alt"></i>Category</a>
                         </li>
+                        <li>
+                            <a href="subcategory.php">
+                                <i class="fas fa-calendar-alt"></i>SubCategory</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
