@@ -11,6 +11,12 @@ if(isset($_POST['addResource'])){
              CategoryID  =$cateory, SubcategoryID  =$SubcategoryID";
     $conn->query($sql);
 }
+if(isset($_POST["deletResource"])){
+    $id = $_POST['idRes'];
+    $sql = "DELETE FROM ressources WHERE ResourceID=$id";
+    $conn->query($sql);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -440,9 +446,12 @@ if(isset($_POST['addResource'])){
                                                         <button data-toggle="modal" data-target="#largeModal<?=$i?>" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
+                                                        <form method="post" >
+                                                            <input type="hidden" name="idRes" value='<?=$id?>' >
+                                                            <button name='deletResource' class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="zmdi zmdi-delete"></i>
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </td>
                                             </tr>
