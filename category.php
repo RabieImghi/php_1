@@ -3,7 +3,20 @@ require 'connection.php';
 if(empty($_SESSION["user"])){
     header("Location: login.php");
 }
-
+if(isset($_POST['addCat'])){
+    $catname = $_POST['catname'];
+    $sql = "INSERT INTO categorys SET CategoryDescription = '$catname'";
+    $conn->query($sql);
+}
+if(isset($_POST["updateCat"])){
+    $resname = $_POST['resname'];
+    $cateory = $_POST['cateory'];
+    $SubcategoryID = $_POST['subcateory'];
+    $idres= $_POST["idRes"];
+    $sql = "UPDATE ressources SET ResourceName = '$resname',
+    CategoryID  =$cateory, SubcategoryID  =$SubcategoryID WHERE ResourceID =$idres ";
+    $conn->query($sql);
+}
 if(isset($_POST["deletCat"])){
     $id = $_POST['idCat'];
     $sql ="DELETE FROM categorys WHERE CategoryID=$id";
@@ -12,10 +25,6 @@ if(isset($_POST["deletCat"])){
     $conn->query($sql2);
     $conn->query($sql3);
     $res=$conn->query($sql);
-    if($res) echo "<script>alert('ok')</script>";
-    else {
-        echo " <script>alert('" . $sql . "<br>" . $conn->error . "')</script>";
-      }
 }
 
 ?>
@@ -413,7 +422,7 @@ if(isset($_POST["deletCat"])){
                                             <i class="zmdi zmdi-filter-list"></i>filters</button>
                                     </div>
                                     <div class="table-data__tool-right">
-                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#addUser" >
+                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#addCat" >
                                             <i class="zmdi zmdi-plus"></i>add item</button>
                                     </div>
                                 </div>
@@ -475,17 +484,17 @@ if(isset($_POST["deletCat"])){
         </div>
     </div>
     <?php
-    $sql = "SELECT * FROM categorys NATURAL JOIN ressources NATURAL JOIN subcategorys";
+    $sql = "SELECT * FROM categorys";
     $result = $conn->query($sql);
     $i=0;
     while ($row = $result->fetch_assoc()) {
         $idress=$row["ResourceID"];
         ?>
-    <div class="modal fade" id="largeModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+    <div class="modal fade" id="largeModal<?=$i++?>" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="largeModalLabel">Add Recource</h5>
+                    <h5 class="modal-title" id="largeModalLabel">Update Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -495,53 +504,8 @@ if(isset($_POST["deletCat"])){
                         <div class="card-body">
                             <form method="post" novalidate="novalidate">
                                 <div class="form-group">
-                                    <label for="cc-payment" class="control-label mb-1">Resource Name</label>
-                                    <input id="cc-pament" name="resname" type="text" class="form-control" aria-required="true" value='<?=$row["ResourceName"]?>' aria-invalid="false" >
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
-                                            <label for="select" class=" form-control-label">Recource Category</label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="cateory" id="select" class="form-control">
-                                                <option>Please select Category</option>
-                                                    
-                                                <?php 
-                                                    $sql2 = "SELECT * FROM  categorys ";
-                                                    $result2 = $conn->query($sql2);
-                                                    $i=0;
-                                                    while ($row2 = $result2->fetch_assoc()) {
-                                                        $id=$row2["CategoryID"];
-                                                    ?>
-                                                    <option value="<?=$id?>" <?php if($row["CategoryID"]==$id) echo "selected"; ?>><?=$row2["CategoryDescription"]?></option>
-                                                    <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
-                                            <label for="select" class=" form-control-label">Recource subategory</label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="subcateory" id="select" class="form-control">
-                                                <option>Please select subCategory</option>
-                                                    
-                                                <?php 
-                                                    $sql = "SELECT * FROM  subcategorys ";
-                                                    $result = $conn->query($sql);
-                                                    $i=0;
-                                                    while ($row2 = $result->fetch_assoc()) {
-                                                        $id=$row2["SubcategoryID"];
-                                                    ?>
-                                                    <option value="<?=$id?>" <?php if($row["SubcategoryID"]==$id) echo "selected";?> > <?=$row2["SubcategoryDescription"]?></option>
-                                                    <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <label for="cc-payment" class="control-label mb-1">Category Name</label>
+                                    <input id="cc-pament" name="resname" type="text" class="form-control" aria-required="true" value='<?=$row["CategoryDescription"]?>' aria-invalid="false" >
                                 </div>
                                 <div>
                                     <input type="hidden" name="idRes" value='<?=$idress?>' >
@@ -559,13 +523,14 @@ if(isset($_POST["deletCat"])){
             </div>
         </div>
     </div>
-    <?php $i++; } ?>
+    <?php 
+    } ?>
     <!-- add res modal-->
-    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addCat" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="largeModalLabel">Add Recource</h5>
+                    <h5 class="modal-title" id="largeModalLabel">Add Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -575,56 +540,11 @@ if(isset($_POST["deletCat"])){
                         <div class="card-body">
                             <form method="post" novalidate="novalidate">
                                 <div class="form-group">
-                                    <label for="cc-payment" class="control-label mb-1">Recource Name</label>
-                                    <input id="cc-pament" name="resname" type="text" class="form-control" aria-required="true" aria-invalid="false" >
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
-                                            <label for="select" class=" form-control-label">Recource Category</label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="cateory" id="select" class="form-control">
-                                                <option>Please select Category</option>
-                                                    
-                                                <?php 
-                                                    $sql = "SELECT * FROM  categorys ";
-                                                    $result = $conn->query($sql);
-                                                    $i=0;
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        $id=$row["CategoryID"];
-                                                    ?>
-                                                    <option value="<?=$id?>"><?=$row["CategoryDescription"]?></option>
-                                                    <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
-                                            <label for="select" class=" form-control-label">Recource subategory</label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="subcateory" id="select" class="form-control">
-                                                <option>Please select subCategory</option>
-                                                    
-                                                <?php 
-                                                    $sql = "SELECT * FROM  subcategorys ";
-                                                    $result = $conn->query($sql);
-                                                    $i=0;
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        $id=$row["SubcategoryID"];
-                                                    ?>
-                                                    <option value="<?=$id?>"><?=$row["SubcategoryDescription"]?></option>
-                                                    <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <label for="cc-payment" class="control-label mb-1">Category Name</label>
+                                    <input id="cc-pament" name="catname" type="text" class="form-control" aria-required="true" aria-invalid="false" >
                                 </div>
                                 <div>
-                                    <button id="payment-button"  type="submit" name="addResource" class="btn btn-lg btn-info btn-block">
+                                    <button id="payment-button"  type="submit" name="addCat" class="btn btn-lg btn-info btn-block">
                                         add
                                     </button>
                                 </div>

@@ -485,58 +485,60 @@ if(isset($_POST['updateUser'])){
     $i=0;
     while ($row = $result->fetch_assoc()) {
         $id=$row["UserID"];
-        ?>
-    <div class="modal fade" id="largeModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="largeModalLabel">Update User Information</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-                        <div class="card-body">
-                            <form action="" method="post" novalidate="novalidate">
-                                <div class="form-group">
-                                    <label for="cc-payment" class="control-label mb-1">User Name</label>
-                                    <input id="cc-pament" name="username" type="text" class="form-control" aria-required="true" aria-invalid="false" value="<?=$row['userName']; ?>">
-                                </div>
-                                <div class="form-group has-success">
-                                    <label for="cc-name" class="control-label mb-1">Email</label>
-                                    <input id="cc-name" name="email" type="text" class="form-control cc-name valid" value="<?=$row['email'];?>" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
-                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
-                                            <label for="select" class=" form-control-label">Role</label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="role" id="select" class="form-control">
-                                                <option>Please select</option>
-                                                
-                                                <option value="0" <?php if($row['role']==0) echo "selected"?>>User</option>
-                                                <option value="1" <?php if($row['role']==1) echo "selected"?>>Admin</option>
-                                            </select>
+    ?>
+        <div class="modal fade" id="largeModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="largeModalLabel">Update User Information</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="" method="post" novalidate="novalidate">
+                                    <div class="form-group">
+                                        <label for="cc-payment" class="control-label mb-1">User Name</label>
+                                        <input id="cc-pament" name="username" type="text" class="form-control" aria-required="true" aria-invalid="false" value="<?=$row['userName']; ?>">
+                                    </div>
+                                    <div class="form-group has-success">
+                                        <label for="cc-name" class="control-label mb-1">Email</label>
+                                        <input id="cc-name" name="email" type="text" class="form-control cc-name valid" value="<?=$row['email'];?>" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label for="select" class=" form-control-label">Role</label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <select name="role" id="select" class="form-control">
+                                                    <option>Please select</option>
+                                                    
+                                                    <option value="0" <?php if($row['role']==0) echo "selected"?>>User</option>
+                                                    <option value="1" <?php if($row['role']==1) echo "selected"?>>Admin</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <input type="hidden" value="<?=$id?>" name='idUser'>
-                                    <button id="payment-button" name='updateUser' type="submit" class="btn btn-lg btn-info btn-block">
-                                        UPDATE
-                                    </button>
-                                </div>
-                            </form>
+                                    <div>
+                                        <input type="hidden" value="<?=$id?>" name='idUser'>
+                                        <button id="payment-button" name='updateUser' type="submit" class="btn btn-lg btn-info btn-block">
+                                            UPDATE
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <?php $i++; } ?>
+    <?php 
+        $i++; } 
+    ?>
 
     <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
