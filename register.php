@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-    include 'connection.php';
+    include_once 'autoloader.php';
+    Autoloader::register();
+    $conn = Connection::conneect();
     if(isset($_POST["registre"])){
         $username = $_POST["username"];
         $email = $_POST["email"];
-        $password = MD5( $_POST["password"]);
-
-        $sql = "INSERT INTO utilisateurs SET userName = '$username',
-             email ='$email', password ='$password', role=1";
+        $password = MD5($_POST["password"]);
+        $sql = "INSERT INTO utilisateurs SET userName = '$username',email ='$email', password ='$password', role=1";
         $conn->query($sql);
+        header("Location: login.php");
     }
 ?>
 

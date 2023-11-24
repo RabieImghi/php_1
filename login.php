@@ -1,29 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-    include 'connection.php';
+    include_once 'autoloader.php';
+    Autoloader::register();
+    $conn = Connection::conneect();
+    
     if(isset($_GET["logout"])){
         session_destroy();
     }
     if(isset($_POST["login"])){
         $email = $_POST["email"];
         $password = MD5($_POST["password"]);
-
-        $sql = "SELECT * FROM utilisateurs WHERE email='$email' AND password ='$password'";
-        $res=$conn->query($sql);
-        if(!$res) {
-            echo "Error: " . $conn->error;  // Add this line for debugging purposes
-            header("Location: login.php");
-        } else {
-            // Check if any rows were returned
-            if($res->num_rows > 0){
-                $user = $res->fetch_assoc();
-                $_SESSION["user"] =  $user["userName"];
-                $_SESSION["roleUser"] =  $user["role"];
-                header("Location: index.php");
-                exit();
-            }
-        }
+        Person::loginUser($email,$password);
     }
 ?>
 <!DOCTYPE html>

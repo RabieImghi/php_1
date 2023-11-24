@@ -1,12 +1,31 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <?php
-include 'connection.php';
+
 if(empty($_SESSION["user"])){
     header("Location: login.php");
 }
+if(isset($_POST['adduser'])){
+    
+}
+if(isset($_GET["deletUser"])){
+    $id=$_GET["deletUser"];
+    $sql = "DELETE FROM utilisateurs WHERE UserID=$id";
+    $conn->query($sql);
+}
+if(isset($_POST['updateUser'])){
+    $UserID = $_POST['idUser'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $role = $_POST['role'];
+    $sql = "UPDATE utilisateurs SET  userName = '$username',
+        email ='$email', role='$role' WHERE UserID=$UserID";
+    $conn->query($sql);
+}
+
 ?>
+
+
 <head>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -16,7 +35,7 @@ if(empty($_SESSION["user"])){
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard</title>
+    <title>Tables</title>
 
     <!-- Fontfaces CSS-->
     <link href="css/font-face.css" rel="stylesheet" media="all">
@@ -106,26 +125,7 @@ if(empty($_SESSION["user"])){
                             <a href="index.php">
                                 <i class="fas fa-tachometer-alt"></i></i>Dashboard</a>
                         </li>
-                        <?php 
-                            if($_SESSION["roleUser"]==1){
-                        ?>
-                        <li>
-                            <a href="user.php">
-                                <i class="fas fa-table"></i>Users</a>
-                        </li>
-                        <li>
-                            <a href="resource.php">
-                                <i class="far fa-check-square"></i>Resource</a>
-                        </li>
-                            <?php } ?>
-                        <li>
-                            <a href="category.php">
-                                <i class="fas fa-calendar-alt"></i>Category</a>
-                        </li>
-                        <li>
-                            <a href="subcategory.php">
-                                <i class="fas fa-calendar-alt"></i>SubCategory</a>
-                        </li>
+                        
                     </ul>
                 </nav>
             </div>
@@ -306,162 +306,81 @@ if(empty($_SESSION["user"])){
                     </div>
                 </div>
             </header>
-            <!-- HEADER DESKTOP-->
+            <!-- END HEADER DESKTOP-->
 
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="overview-wrap">
-                                    <h2 class="title-1">overview</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row m-t-25">
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c1">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="icon">
-                                                <i class="zmdi zmdi-account-o"></i>
-                                            </div>
-                                            <div class="text">
-                                                <?php
-                                                    $users = "SELECT count(*) as Total FROM utilisateurs";
-                                                    $result = $conn->query($users);
-                                                    $user = $result->fetch_assoc();
-                                                ?>
-                                                <h2><?=$user["Total"]?></h2>
-                                                <span>Members Total</span>
-                                            </div>
+                        <div>
+                            <div>
+                                <!-- USER DATA-->
+                                <div class="user-data m-b-30">
+                                    <h3 class="title-3 m-b-30">
+                                        <i class="zmdi zmdi-account-calendar"></i>user data</h3>
+                                    <div class="filters m-b-45 d-flex justify-content-between">
+                                        <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border">
+                                            <select class="js-select2" name="property">
+                                                <option selected="selected">All Properties</option>
+                                                <option value="">User</option>
+                                                <option value="">Admin</option>
+                                            </select>
+                                            <div class="dropDownSelect2"></div>
+                                        </div>
+                                        <div class="table-data__tool-right">
+                                            <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#addUser">
+                                                <i class="zmdi zmdi-plus" ></i>add Usrr
+                                            </button>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c2">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="icon">
-                                                <i class="zmdi zmdi-shopping-cart"></i>
-                                            </div>
-                                            <div class="text">
-                                                <?php
-                                                    $users = "SELECT count(*) as Total FROM categorys";
-                                                    $result = $conn->query($users);
-                                                    $user = $result->fetch_assoc();
-                                                ?>
-                                                <h2><?=$user["Total"]?></h2>
-                                                <span>Total Category</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c3">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="icon">
-                                                <i class="zmdi zmdi-calendar-note"></i>
-                                            </div>
-                                            <div class="text">
-                                                <?php
-                                                    $users = "SELECT count(*) as Total FROM subcategorys";
-                                                    $result = $conn->query($users);
-                                                    $user = $result->fetch_assoc();
-                                                ?>
-                                                <h2><?=$user["Total"]?></h2>
-                                                <span>Total SubCategorys</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c4">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="icon">
-                                                <i class="zmdi zmdi-money"></i>
-                                            </div>
-                                            <div class="text">
-                                                <?php
-                                                    $users = "SELECT count(*) as Total FROM ressources";
-                                                    $result = $conn->query($users);
-                                                    $user = $result->fetch_assoc();
-                                                ?>
-                                                <h2><?=$user["Total"]?></h2>
-                                                <span>Total Ressources</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-lg-9">
-                                <h2 class="title-1 m-b-25">Most Category Used</h2>
-                                <div class="table-responsive table--no-card m-b-40">
-                                    <table class="table table-borderless table-striped table-earning">
-                                        <thead>
-                                            <tr> 
-                                                <th>Category ID</th>
-                                                <th>Category Name</th>
-                                                <th class="text-right">Number Of Used Resource</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                                $resources = "SELECT *,count(ResourceID) as totalRes FROM
-                                                 categorys NATURAL JOIN ressources 
-                                                 GROUP BY ressources.CategoryID 
-                                                 ORDER BY totalRes DESC";
-                                                $result = $conn->query($resources);
-                                                while ($resource = $result->fetch_assoc()){
-                                                    ?>
+                                    <div class="table-responsive table-data">
+                                        <table class="table">
+                                            <thead>
                                                 <tr>
-                                                    <td><?=$resource['CategoryID']?></td>
-                                                    <td><?=$resource['CategoryDescription']?></td>
-                                                    <td class="text-right"><?=$resource['totalRes']?></td>
+                                                    <td>User Name</td>
+                                                    <td>Email</td>
+                                                    <td>Role</td>
+                                                    <td>Action</td>
                                                 </tr>
-                                            <?php
-                                                }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <h2 class="title-1 m-b-25">Category Not use</h2>
-                                <div class="au-card au-card--bg-blue au-card-top-countries m-b-40">
-                                    <div class="au-card-inner">
-                                        <div class="table-responsive">
-                                            <table class="table table-top-countries">
-                                                <tbody>
-                                                    <?php
-                                                    $categorys = "SELECT *, c.CategoryID as idc FROM categorys c LEFT JOIN ressources r 
-                                                    ON c.CategoryID = r.CategoryID 
-                                                    WHERE r.CategoryID IS NULL";
-                                                    $result = $conn->query($categorys);
-                                                    while ($category = $result->fetch_assoc()){
-                                                    ?>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                    $sql = "SELECT * FROM utilisateurs";
+                                                    $result = $conn->query($sql);
+                                                    $i=0;
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        $id=$row["UserID"];
+                                                        ?>
                                                     <tr>
-                                                        <td><?=$category["idc"]?></td>
-                                                        <td class="text-right"><?=$category["CategoryDescription"]?></td>
+                                                        <td> <?=$row['userName']; ?> </td>
+                                                        <td>  <?=$row['email']; ?> </td>
+                                                        <td>
+                                                            <?php 
+                                                                if($row['role']==1) 
+                                                                echo "<span class='role admin'>Admin</span>";
+                                                                else
+                                                                echo "<span class='role user'>User</span>";
+                                                            ?>
+                                                        </td>
+                                                        <td>
+                                                            <i data-toggle="modal" data-target="#largeModal<?=$i?>"  class="zmdi zmdi-edit"></i>    
+                                                            <a href="index.php?deletUser=<?=$id?>"><i class="zmdi zmdi-delete"></i> </a>                                                       
+                                                        </td>
                                                     </tr>
                                                     <?php
+                                                    $i++;
                                                     }
-                                                    ?>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                ?>
+                                            </tbody>
+                                            
+                                        </table>
+                                    </div>
+                                    <div class="user-data__footer">
+                                        <button class="au-btn au-btn-load">load more</button>
                                     </div>
                                 </div>
+                                
+                                <!-- END USER DATA-->
                             </div>
                         </div>
                         <div class="row">
@@ -474,12 +393,126 @@ if(empty($_SESSION["user"])){
                     </div>
                 </div>
             </div>
-            <!-- END MAIN CONTENT-->
-            <!-- END PAGE CONTAINER-->
         </div>
-
     </div>
+    <?php
+    $sql = "SELECT * FROM utilisateurs";
+    $result = $conn->query($sql);
+    $i=0;
+    while ($row = $result->fetch_assoc()) {
+        $id=$row["UserID"];
+    ?>
+        <div class="modal fade" id="largeModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="largeModalLabel">Update User Information</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="" method="post" novalidate="novalidate">
+                                    <div class="form-group">
+                                        <label for="cc-payment" class="control-label mb-1">User Name</label>
+                                        <input id="cc-pament" name="username" type="text" class="form-control" aria-required="true" aria-invalid="false" value="<?=$row['userName']; ?>">
+                                    </div>
+                                    <div class="form-group has-success">
+                                        <label for="cc-name" class="control-label mb-1">Email</label>
+                                        <input id="cc-name" name="email" type="text" class="form-control cc-name valid" value="<?=$row['email'];?>" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label for="select" class=" form-control-label">Role</label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <select name="role" id="select" class="form-control">
+                                                    <option>Please select</option>
+                                                    
+                                                    <option value="0" <?php if($row['role']==0) echo "selected"?>>User</option>
+                                                    <option value="1" <?php if($row['role']==1) echo "selected"?>>Admin</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <input type="hidden" value="<?=$id?>" name='idUser'>
+                                        <button id="payment-button" name='updateUser' type="submit" class="btn btn-lg btn-info btn-block">
+                                            UPDATE
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php 
+        $i++; } 
+    ?>
 
+    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="largeModalLabel">Update User Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" novalidate="novalidate">
+                                <div class="form-group">
+                                    <label for="cc-payment" class="control-label mb-1">User Name</label>
+                                    <input id="cc-pament" name="username" type="text" class="form-control" aria-required="true" aria-invalid="false" >
+                                </div>
+                                <div class="form-group has-success">
+                                    <label for="cc-name" class="control-label mb-1">Email</label>
+                                    <input id="cc-name" name="email" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label for="cc-name" class="control-label mb-1">Password</label>
+                                    <input id="cc-name" name="password" type="password" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="select" class=" form-control-label">Role</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <select name="role" id="select" class="form-control">
+                                                <option>Please select</option>
+                                                <option value="0">User</option>
+                                                <option value="1">Admin</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button id="payment-button"  type="submit" name="adduser" class="btn btn-lg btn-info btn-block">
+                                        UPDATE
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
@@ -503,7 +536,7 @@ if(empty($_SESSION["user"])){
 
     <!-- Main JS-->
     <script src="js/main.js"></script>
-
+    
 </body>
 
 </html>
